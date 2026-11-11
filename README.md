@@ -17,7 +17,7 @@ SciTok превращает научную статью в вертикальн�
    `research-reels-<id>-debug.zip`.
 2. Склонируй репозиторий (не в папку, которую синхронизирует iCloud):
    ```bash
-   git clone https://github.com/CTLab-ITMO/scitok-reel-studio.git ~/scitok-reel-studio
+   git clone https://github.com/Egorgrom0v/scitok-reel-studio.git ~/scitok-reel-studio
    cd ~/scitok-reel-studio
    ```
 3. Открой в этой папке своего агента. Для Claude Code:
