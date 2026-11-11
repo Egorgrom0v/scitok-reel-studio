@@ -1,0 +1,5 @@
+node_modules/
+videos/*
+!videos/README.md
+.DS_Store
+__pycache__/

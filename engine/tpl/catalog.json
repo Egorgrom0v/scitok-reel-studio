@@ -1,0 +1,751 @@
+{
+  "version": 1,
+  "types": {
+    "text": "строка; max — предел символов; ref: true — подпись источника («Таблица 1», «Стр. 2»), числа в ней не проверяются",
+    "number": "число; fact: true — число должно быть в реестре фактов этой сцены (или звучать в её тексте)",
+    "at": "момент появления: секунды от начала шота или {\"word\": \"слово из текста этой сцены\", \"n\": 0}",
+    "tone": "ink | blue | red | green | amber | gray",
+    "crop": "имя кропа статьи из плана (crops)",
+    "pair": "имя картинки из build/pairs",
+    "region": "[x0, y0, x1, y1] — доли кропа (0–1): часть рисунка, куда наехать камерой (кривые, нужная строка таблицы, легенда); без него — в подсветку"
+  },
+  "templates": {
+    "title_card": {
+      "use": "заголовок темы или вывод одной фразой, без чисел",
+      "props": {
+        "title": {
+          "type": "text",
+          "max": 48,
+          "required": true
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "sub": {
+          "type": "text",
+          "max": 70
+        },
+        "at": {
+          "type": "at"
+        },
+        "sub_at": {
+          "type": "at"
+        },
+        "size": {
+          "type": "int",
+          "min": 60,
+          "max": 110
+        }
+      }
+    },
+    "big_number": {
+      "use": "одно главное число сцены крупно, счётчиком",
+      "props": {
+        "value": {
+          "type": "number",
+          "fact": true,
+          "required": true
+        },
+        "from": {
+          "type": "number"
+        },
+        "dec": {
+          "type": "int",
+          "min": 0,
+          "max": 2
+        },
+        "prefix": {
+          "type": "text",
+          "max": 4
+        },
+        "suffix": {
+          "type": "text",
+          "max": 8
+        },
+        "label": {
+          "type": "text",
+          "max": 60
+        },
+        "sub": {
+          "type": "text",
+          "max": 70
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        },
+        "label_at": {
+          "type": "at"
+        },
+        "sub_at": {
+          "type": "at"
+        },
+        "size": {
+          "type": "int",
+          "min": 140,
+          "max": 280
+        }
+      }
+    },
+    "bars_compare": {
+      "use": "2–4 значения одной метрики: было → стало, наш метод против других",
+      "props": {
+        "bars": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "required": true,
+          "item": {
+            "value": {
+              "type": "number",
+              "fact": true,
+              "required": true
+            },
+            "label": {
+              "type": "text",
+              "max": 14,
+              "required": true
+            },
+            "tone": {
+              "type": "tone"
+            },
+            "at": {
+              "type": "at"
+            }
+          }
+        },
+        "suffix": {
+          "type": "text",
+          "max": 6
+        },
+        "dec": {
+          "type": "int",
+          "min": 0,
+          "max": 2
+        },
+        "delta": {
+          "type": "text",
+          "max": 20
+        },
+        "delta_tone": {
+          "type": "tone"
+        },
+        "delta_at": {
+          "type": "at"
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        }
+      }
+    },
+    "dot_grid": {
+      "use": "«N из 100»: доля как сетка точек (total ≤ 100)",
+      "props": {
+        "n": {
+          "type": "number",
+          "fact": true,
+          "required": true
+        },
+        "total": {
+          "type": "number",
+          "fact": true,
+          "max": 100
+        },
+        "label": {
+          "type": "text",
+          "max": 60
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        },
+        "fill_dur": {
+          "type": "number",
+          "min": 0.4,
+          "max": 3
+        }
+      }
+    },
+    "rank_bar": {
+      "use": "место в рейтинге или очереди: «149 из 163»",
+      "props": {
+        "place": {
+          "type": "number",
+          "fact": true,
+          "required": true
+        },
+        "total": {
+          "type": "number",
+          "fact": true,
+          "required": true
+        },
+        "label": {
+          "type": "text",
+          "max": 60
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        }
+      }
+    },
+    "ring_progress": {
+      "use": "одна доля в процентах как кольцо",
+      "props": {
+        "value": {
+          "type": "number",
+          "fact": true,
+          "required": true,
+          "min": 0,
+          "max": 100
+        },
+        "dec": {
+          "type": "int",
+          "min": 0,
+          "max": 1
+        },
+        "label": {
+          "type": "text",
+          "max": 60
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        }
+      }
+    },
+    "chips_stack": {
+      "use": "2–5 пунктов списком, каждый на своём слове; mark — короткая пометка справа",
+      "props": {
+        "items": {
+          "type": "list",
+          "min": 2,
+          "max": 5,
+          "required": true,
+          "item": {
+            "text": {
+              "type": "text",
+              "max": 26,
+              "required": true
+            },
+            "mark": {
+              "type": "text",
+              "max": 12
+            },
+            "tone": {
+              "type": "tone"
+            },
+            "at": {
+              "type": "at"
+            }
+          }
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        }
+      }
+    },
+    "compare_cards": {
+      "use": "два варианта рядом: подход А против Б, проблема против решения",
+      "props": {
+        "left": {
+          "type": "object",
+          "required": true,
+          "props": {
+            "title": {
+              "type": "text",
+              "max": 24,
+              "required": true
+            },
+            "big": {
+              "type": "text",
+              "max": 6
+            },
+            "text": {
+              "type": "text",
+              "max": 50
+            },
+            "chip": {
+              "type": "text",
+              "max": 14
+            },
+            "tone": {
+              "type": "tone"
+            },
+            "at": {
+              "type": "at"
+            },
+            "chip_at": {
+              "type": "at"
+            }
+          }
+        },
+        "right": {
+          "type": "object",
+          "required": true,
+          "props": {
+            "title": {
+              "type": "text",
+              "max": 24,
+              "required": true
+            },
+            "big": {
+              "type": "text",
+              "max": 6
+            },
+            "text": {
+              "type": "text",
+              "max": 50
+            },
+            "chip": {
+              "type": "text",
+              "max": 14
+            },
+            "tone": {
+              "type": "tone"
+            },
+            "at": {
+              "type": "at"
+            },
+            "chip_at": {
+              "type": "at"
+            }
+          }
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        }
+      }
+    },
+    "flow_steps": {
+      "use": "2–4 шага процесса сверху вниз + исход; active — номер горящего шага",
+      "props": {
+        "steps": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "required": true,
+          "item": {
+            "text": {
+              "type": "text",
+              "max": 24,
+              "required": true
+            },
+            "at": {
+              "type": "at"
+            }
+          }
+        },
+        "outcome": {
+          "type": "object",
+          "props": {
+            "text": {
+              "type": "text",
+              "max": 28,
+              "required": true
+            },
+            "tone": {
+              "type": "tone"
+            },
+            "at": {
+              "type": "at"
+            }
+          }
+        },
+        "active": {
+          "type": "int",
+          "min": 0,
+          "max": 3
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        }
+      }
+    },
+    "staircase": {
+      "use": "2–4 вывода по нарастающей, последний — главный",
+      "props": {
+        "items": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "required": true,
+          "item": {
+            "text": {
+              "type": "text",
+              "max": 44,
+              "required": true
+            },
+            "at": {
+              "type": "at"
+            }
+          }
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        }
+      }
+    },
+    "concept_strike": {
+      "use": "неверное представление или старое число зачёркивается, появляется верное",
+      "props": {
+        "wrong": {
+          "type": "text",
+          "max": 30,
+          "required": true
+        },
+        "right": {
+          "type": "text",
+          "max": 30,
+          "required": true
+        },
+        "sub": {
+          "type": "text",
+          "max": 60
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "wrong_at": {
+          "type": "at"
+        },
+        "right_at": {
+          "type": "at"
+        }
+      }
+    },
+    "paper_focus": {
+      "use": "фрагмент статьи (таблица, абзац, рисунок) с подсветкой; наезд до читаемого текста, в region, если задан",
+      "props": {
+        "crop": {
+          "type": "crop",
+          "required": true
+        },
+        "label": {
+          "type": "text",
+          "max": 30,
+          "ref": true
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        },
+        "hl_at": {
+          "type": "at"
+        },
+        "cy": {
+          "type": "int",
+          "min": 420,
+          "max": 620
+        },
+        "region": {
+          "type": "region"
+        }
+      }
+    },
+    "figure_zoom": {
+      "use": "рисунок статьи целиком, затем наезд в его часть (region) до читаемого текста",
+      "props": {
+        "crop": {
+          "type": "crop",
+          "required": true
+        },
+        "zoom": {
+          "type": "number",
+          "min": 1,
+          "max": 2.5
+        },
+        "label": {
+          "type": "text",
+          "max": 30,
+          "ref": true
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        },
+        "hl_at": {
+          "type": "at"
+        },
+        "region": {
+          "type": "region"
+        }
+      }
+    },
+    "paper_number": {
+      "use": "строка таблицы статьи сверху и число из неё крупно снизу",
+      "props": {
+        "crop": {
+          "type": "crop",
+          "required": true
+        },
+        "value": {
+          "type": "number",
+          "fact": true,
+          "required": true
+        },
+        "from": {
+          "type": "number"
+        },
+        "dec": {
+          "type": "int",
+          "min": 0,
+          "max": 2
+        },
+        "prefix": {
+          "type": "text",
+          "max": 4
+        },
+        "suffix": {
+          "type": "text",
+          "max": 8
+        },
+        "caption": {
+          "type": "text",
+          "max": 50
+        },
+        "label": {
+          "type": "text",
+          "max": 30,
+          "ref": true
+        },
+        "tone": {
+          "type": "tone"
+        },
+        "at": {
+          "type": "at"
+        },
+        "hl_at": {
+          "type": "at"
+        },
+        "number_at": {
+          "type": "at"
+        },
+        "size": {
+          "type": "int",
+          "min": 120,
+          "max": 200
+        }
+      }
+    },
+    "pair_diff": {
+      "use": "оригинал и испорченная копия, рамки на отличиях (картинки готовит код)",
+      "props": {
+        "orig": {
+          "type": "pair",
+          "required": true
+        },
+        "bad": {
+          "type": "pair",
+          "required": true
+        },
+        "size": {
+          "type": "size",
+          "required": true
+        },
+        "diffs": {
+          "type": "boxes"
+        },
+        "orig_label": {
+          "type": "text",
+          "max": 14
+        },
+        "bad_label": {
+          "type": "text",
+          "max": 14
+        },
+        "orig_at": {
+          "type": "at"
+        },
+        "bad_at": {
+          "type": "at"
+        },
+        "marks_at": {
+          "type": "at"
+        }
+      }
+    },
+    "term_def": {
+      "use": "термин и его смысл простыми словами, опционально бытовой пример",
+      "props": {
+        "term": {
+          "type": "text",
+          "max": 24,
+          "required": true
+        },
+        "meaning": {
+          "type": "text",
+          "max": 80,
+          "required": true
+        },
+        "example": {
+          "type": "text",
+          "max": 30
+        },
+        "eyebrow": {
+          "type": "text",
+          "max": 28
+        },
+        "at": {
+          "type": "at"
+        },
+        "meaning_at": {
+          "type": "at"
+        },
+        "example_at": {
+          "type": "at"
+        }
+      }
+    },
+    "quote_card": {
+      "use": "дословная цитата из статьи (перевод) с источником; только текст статьи, не людей",
+      "props": {
+        "quote": {
+          "type": "text",
+          "max": 140,
+          "required": true
+        },
+        "source": {
+          "type": "text",
+          "max": 50,
+          "ref": true
+        },
+        "at": {
+          "type": "at"
+        }
+      }
+    }
+  },
+  "diagram": {
+    "use": "живая схема механизма: объекты объявляются один раз в plan.diagrams, шоты разных фраз добавляют шаги на словах; картинка продолжается через склейку",
+    "objects": {
+      "chain": {
+        "use": "цепочка шагов со стрелками: вопрос → шаг → … → ответ, этапы процесса, причина → следствие; дети id.0, id.1…; link соседних шагов красит стрелку",
+        "params": {
+          "items": "шаги по порядку, 2–8, до 22 знаков",
+          "y": "top | center | bottom"
+        }
+      },
+      "tokens": {
+        "use": "ряд слов самого текста (предложение, документ), когда важны именно слова; для шагов процесса — chain",
+        "params": {
+          "items": "список строк (1–20)",
+          "layout": "row | ring (по умолчанию — само)",
+          "y": "top | center | bottom"
+        }
+      },
+      "boxes": {
+        "use": "2–4 блока: модули, этапы, подходы",
+        "params": {
+          "items": "список строк или {text, sub}",
+          "layout": "row | column",
+          "y": "top | center | bottom"
+        }
+      },
+      "dots": {
+        "use": "сетка точек: доли, масштаб, «каждый с каждым»",
+        "params": {
+          "n": "до 400",
+          "cols": "столбцов",
+          "y": "…"
+        }
+      },
+      "grid": {
+        "use": "поле из клеток: головоломка (Survo, судоку), маленькая таблица, матрица; клетка — дочерний id.k по строкам",
+        "params": {
+          "items": "значения клеток по строкам, 4–36; пустая клетка — \"\" или \"X\"; до 6 знаков",
+          "cols": "столбцов",
+          "y": "top | center | bottom"
+        }
+      },
+      "meter": {
+        "use": "полоса-шкала: время, стоимость, прогресс",
+        "params": {
+          "label": "подпись",
+          "value": "старт",
+          "max": "максимум",
+          "tone": "цвет",
+          "y": "…"
+        }
+      },
+      "label": {
+        "use": "подпись под схемой (одна мысль)",
+        "params": {
+          "text": "до 60 знаков",
+          "y": "…",
+          "tone": "цвет"
+        }
+      }
+    },
+    "common": {
+      "id": "имя объекта",
+      "hidden": "true — появится только по шагу show"
+    },
+    "targets": "id (весь объект), id.3 (элемент), id.2-5 (диапазон), «id.1,id.4» или список",
+    "actions": {
+      "show": "target; stagger",
+      "hide": "target",
+      "focus": "target; tone; dim_rest=false не гасить остальных",
+      "unfocus": "target",
+      "dim": "target; opacity; blur",
+      "tone": "target; tone",
+      "scan": "target — луч читает элементы по очереди; dur; keep",
+      "link": "from, to (список); weights 0–1 (толщина); labels; tone; arrow; as — имя набора связей",
+      "links_all": "target — каждый с каждым (паутина); weight; tone",
+      "heads": "from, sets — список наборов to: каждая «голова» своим цветом",
+      "unlink": "as (по умолчанию все связи)",
+      "badge": "target; texts (по умолчанию 1..n — позиции); tone",
+      "shuffle": "target — элементы теряют порядок",
+      "order": "target — встают на места",
+      "grow": "target (tokens); add — новые слова, ряд мельчает",
+      "strike": "target — зачеркнуть",
+      "swap": "target; text — заменить надпись",
+      "label": "target; text; side above|below; tone — пометка у элемента",
+      "note": "text — подпись под схемой",
+      "fill": "target (meter); value; dur; slow",
+      "fill_dots": "target (dots); n; tone; dur",
+      "camera": "target; zoom 1.2–2.2 — наезд (пустой target — назад)",
+      "pulse": "target"
+    },
+    "step": {
+      "do": "действие",
+      "at": "момент: секунды от начала шота или {\"word\": \"…\"}"
+    },
+    "title": "у каждой схемы в plan.diagrams обязателен title (до 60 знаков): что это за картинка, читается без голоса — «Задача из шести шагов», «Память агента: лента и блокнот»"
+  }
+}

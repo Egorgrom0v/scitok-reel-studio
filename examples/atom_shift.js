@@ -1,0 +1,31 @@
+// ПРИМЕР · наборы: core, chem. // s16 · ГЕРОЙ: нестабильная частица дрожит, метильная группа перескакивает к соседнему атому — получается другая структура
+const svg = svgLayer();
+const u = 95, cx = 520, cy = 560;
+const ringXY = [[0, -1.2], [1.04, -0.6], [1.04, 0.6], [0, 1.2], [-1.04, 0.6], [-1.04, -0.6]];
+const atoms = ringXY.map(([x, y]) => ['C', cx + x * u, cy + y * u]).concat([['C', cx + 2.05 * u, cy - 1.2 * u], ['C', cx - 2.05 * u, cy + 1.2 * u], ['O', cx, cy - 2.35 * u]]);
+const bonds = [[0, 1, 1], [1, 2, 1], [2, 3, 1], [3, 4, 1], [4, 5, 1], [5, 0, 1], [1, 6, 1], [4, 7, 1], [0, 8, 1], [2, 6, 1], [1, 6, 'ts'], [2, 6, 'ts']];
+const m = Mol(svg, atoms, bonds, { s: 1.2 });
+m.bonds[9].p.op = 0; m.bonds[10].p.op = 0; m.bonds[11].p.op = 0; m.draw();
+m.pop(0.08, 0.05);
+m.color(6, A.blue, 0.1);
+// заряд «+» сидит на атоме 2
+const plus = el('div', 'apchip', { left: (cx + 1.04 * u + 30) + 'px', top: (cy + 0.6 * u + 10) + 'px', width: '54px', height: '54px', borderRadius: '50%', background: A.tint(A.blue, 0.12), color: A.blue, fontSize: '40px', fontWeight: 800, zIndex: 5 }, '+');
+popA(plus, 0.5);
+const tu = Wv('нестабильной', 1.2) - 0.1;
+amberChip('нестабильна', 540, 200, tu, { size: 32, h: 62 });
+const jit = { k: 0 };
+tl.to(jit, { k: 1, duration: 1.0, ease: 'none', onUpdate: () => { m.atoms.forEach((a, i) => { const ph = jit.k * 40 + i * 1.7; a.p.x = (a.p._bx ??= a.p.x) + Math.sin(ph) * 6 * (1 - Math.abs(jit.k * 2 - 1) * 0.3); a.p.y = (a.p._by ??= a.p.y) + Math.cos(ph * 1.3) * 5; }); m.draw(); } }, tu);
+tl.to(jit, { k: 1, duration: 0.01, onUpdate: () => { m.atoms.forEach(a => { if (a.p._bx != null) { a.p.x = a.p._bx; a.p.y = a.p._by; } }); m.draw(); } }, tu + 1.02);
+sfx('тррр_короткий_4', tu, { gain: 0.05 });
+const tm = Wv('перестраивается', 2.4) - 0.2;
+m.bondOp(6, 0, tm, 0.2); m.bondOp(10, 1, tm, 0.2); m.bondOp(11, 1, tm + 0.1, 0.2);
+const mid = [cx + 1.75 * u, cy + 0.0 * u], end = [cx + 2.05 * u, cy + 1.2 * u];
+tl.to(m.atoms[6].p, { keyframes: [{ x: mid[0], y: mid[1], duration: 0.4, ease: 'power2.inOut' }, { x: end[0], y: end[1], duration: 0.4, ease: 'power2.inOut' }], onUpdate: m.draw }, tm + 0.15);
+m.bondOp(10, 0, tm + 0.6, 0.2); m.bondOp(11, 0, tm + 0.75, 0.2); m.bondOp(9, 1, tm + 0.75, 0.2);
+tl.to(plus, { x: 0, y: -1.2 * u - 20, duration: 0.6, ease: 'power2.inOut' }, tm + 0.4);
+sfx('Whoosh_6', tm + 0.15, { gain: 0.06, align: 'end' });
+const td = Wv('другую', 3.4) - 0.15;
+ringPulse(svg, cx, cy, 260, td);
+chip('другая структура', 540, 900, td, { tone: 'blue', size: 32, h: 64 });
+sfx('Select', td, { gain: 0.08 });
+exitAll();

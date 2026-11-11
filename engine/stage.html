@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="{{BUILD_URL}}/fonts.css">
+<style>
+:root{--bg:#07090D;--panel:#0E131B;--line:#1E2733;--ink:#F2F4F7;--dim:#8A94A3;--blue:#4C8DFF;--red:#FF5A4E;--green:#3DDC97;--amber:#FFC24B;--dot:rgba(255,255,255,.04);--docsh:0 24px 70px rgba(0,0,0,.55),0 0 46px rgba(76,141,255,.20);--docbd:none}
+:root.light{--bg:#F4F5F7;--panel:#FFFFFF;--line:#D5DAE1;--ink:#11151B;--dim:#5F6977;--blue:#2563EB;--red:#DC2F25;--green:#0E9F6E;--amber:#B97700;--dot:rgba(17,21,27,.05);--docsh:0 18px 48px rgba(17,21,27,.14),0 2px 6px rgba(17,21,27,.08);--docbd:1px solid #D5DAE1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Fira','Sym';width:1080px;height:1000px;overflow:hidden;background:var(--bg)}
+#stage{position:relative;width:1080px;height:1000px;overflow:hidden;background:var(--bg)}
+#dots{position:absolute;inset:0;background-image:radial-gradient(circle at 12px 12px, var(--dot) 1px, transparent 1.6px);background-size:24px 24px}
+#tint{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%, rgba(255,90,78,.16), rgba(255,90,78,.05));opacity:0}
+#cam{position:absolute;inset:0;transform-origin:50% 50%}
+#hud{position:absolute;inset:0;pointer-events:none}
+.abs{position:absolute;white-space:nowrap}
+.mono{font-family:'JBM','Sym';font-weight:500}
+.fira{font-family:'Fira','Sym'}
+.corner{position:absolute;width:28px;height:28px;border-color:var(--line);border-style:solid;border-width:0}
+.kicker{position:absolute;left:84px;top:52px;font-family:'JBM';font-weight:500;font-size:23px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.kline{position:absolute;left:84px;right:68px;top:92px;height:2px;background:var(--line)}
+.kbr{position:absolute;left:60px;top:52px;width:14px;height:30px;border-left:2px solid var(--dim);border-top:2px solid var(--dim)}
+.card{position:absolute;background:var(--panel);border:2px solid var(--line);border-radius:16px}
+.doc{position:absolute;background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--docsh);border:var(--docbd)}
+.hl{position:absolute;border:6px solid var(--blue);border-radius:10px;box-shadow:0 0 18px rgba(76,141,255,.75),inset 0 0 10px rgba(76,141,255,.35)}
+.hl.red{border-color:var(--red);box-shadow:0 0 18px rgba(255,90,78,.75),inset 0 0 10px rgba(255,90,78,.35)}
+sup{font-size:.58em;position:relative;top:-.62em;vertical-align:baseline;margin-left:.04em}
+.tag{position:absolute;font-family:'JBM';font-weight:700;font-size:22px;letter-spacing:.12em;padding:8px 16px;border-radius:10px;border:2px solid;white-space:nowrap}
+</style></head>
+<body><div id="stage"><div id="dots"></div><div id="tint"></div><div id="cam"></div><div id="hud"></div></div>
+<script src="{{KIT_URL}}/node_modules/gsap/dist/gsap.min.js"></script>
+<script>window.BUILD_URL = "{{BUILD_URL}}"; window.THEME = "{{THEME}}"; window.CHROME_UI = {{CHROME_UI}}; window.SHOTS_THEME = "{{SHOTS_THEME}}" || null; if (window.THEME === "light") document.documentElement.classList.add("light");</script>
+<script>
+(async () => {
+  const fams = ["800 40px Fira", "400 40px Fira", "italic 800 40px Fira", "500 40px JBM", "700 40px JBM", "400 40px Inter", "600 40px Inter", "800 40px Inter"];
+  for (const f of fams) await document.fonts.load(f, "АаTt0");
+  await document.fonts.ready;
+  const load = src => new Promise((ok, bad) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => bad(new Error('cannot load ' + src)); document.body.appendChild(s); });
+  await load('{{ENGINE_URL}}/lib.js');
+  await load('{{VIDEO_URL}}/shots.js');
+  await load('{{ENGINE_URL}}/run.js');
+  await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
+  window.IMGS = true;
+})();
+</script>
+</body></html>
